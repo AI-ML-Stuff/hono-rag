@@ -4,6 +4,9 @@
 declare namespace Cloudflare {
 	interface Env {
 		ASSETS: Fetcher;
+        GROQ_API_KEY: string;
+        VECTORIZE_INDEX: Vectorize;
+        DB: D1Database;
 	}
 }
 interface CloudflareBindings extends Cloudflare.Env {}
