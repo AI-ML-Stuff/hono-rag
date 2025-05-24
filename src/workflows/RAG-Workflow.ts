@@ -35,7 +35,7 @@ export class RAGWorkflow extends WorkflowEntrypoint<Env, Params> {
       return output.map(doc => doc.pageContent);
     })
 
-    console.log("RecursiveCharacterTextSplitter generated ${texts.length} chunks")
+    console.log(`RecursiveCharacterTextSplitter generated ${texts.length} chunks`)
 
     for (const index in texts) {
       const text = texts[index]
@@ -48,6 +48,7 @@ export class RAGWorkflow extends WorkflowEntrypoint<Env, Params> {
 
         const record = results[0]
         if (!record) throw new Error("Failed to create note")
+        console.log(`Created note record: ${record.id} with text length: ${text.length}`)
         return record;
       })
 
@@ -55,10 +56,12 @@ export class RAGWorkflow extends WorkflowEntrypoint<Env, Params> {
         const embeddings = await env.AI.run('@cf/baai/bge-base-en-v1.5', { text: text })
         const values = embeddings.data[0]
         if (!values) throw new Error("Failed to generate vector embedding")
+        console.log(`Generated embedding for note record: ${record.id} with values length: ${values.length}`)
         return values
       })
 
       await step.do(`insert vector: ${index}/${texts.length}`, async () => {
+        console.log(`Inserting vector for note record: ${record.id}`)
         return env.VECTORIZE.upsert([
           {
             id: record.id.toString(),
