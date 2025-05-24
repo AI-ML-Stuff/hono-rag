@@ -4,7 +4,7 @@
  */
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "hono-rag",
+  "name": "rag-demo",
   "main": "src/index.ts",
   "compatibility_date": "2025-05-17",
   "assets": {
@@ -14,51 +14,27 @@
   "observability": {
     "enabled": true
   },
+  "ai": {
+    "binding": "AI"
+  },
+  "workflows": [
+    {
+      "name": "rag_workflow",
+      "binding": "RAG_WORKFLOW",
+      "class_name": "RAGWorkflow"
+    }
+  ],
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "mars-ai-db-dev",
-      "database_id": "38cb5f50-2862-4cf8-bb3e-873ca6585605"
+      "database_name": "rag-knowledge-db",
+      "database_id": "cee714ee-c9b3-4a06-ba57-962ca0b12073"
     }
   ],
   "vectorize": [
     {
-      "binding": "VECTORIZE_INDEX",
-      "index_name": "mars-ai-vector-dev"
+      "binding": "VECTORIZE",
+      "index_name": "rag-vector-index"
     }
   ]
-  /**
-   * Smart Placement
-   * Docs: https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
-   */
-  // "placement": { "mode": "smart" },
-
-  /**
-   * Bindings
-   * Bindings allow your Worker to interact with resources on the Cloudflare Developer Platform, including
-   * databases, object storage, AI inference, real-time communication and more.
-   * https://developers.cloudflare.com/workers/runtime-apis/bindings/
-   */
-
-  /**
-   * Environment Variables
-   * https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
-   */
-  // "vars": { "MY_VARIABLE": "production_value" },
-  /**
-   * Note: Use secrets to store sensitive data.
-   * https://developers.cloudflare.com/workers/configuration/secrets/
-   */
-
-  /**
-   * Static Assets
-   * https://developers.cloudflare.com/workers/static-assets/binding/
-   */
-  // "assets": { "directory": "./public/", "binding": "ASSETS" },
-
-  /**
-   * Service Bindings (communicate between multiple Workers)
-   * https://developers.cloudflare.com/workers/wrangler/configuration/#service-bindings
-   */
-  // "services": [{ "binding": "MY_SERVICE", "service": "my-service" }]
 }
