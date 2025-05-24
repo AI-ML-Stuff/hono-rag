@@ -1,7 +1,7 @@
 {
 	"name": "hono-rag",
 	"scripts": {
-		"dev": "wrangler dev --remote --experimental-vectorize-bind-to-prod",
+		"dev": "wrangler dev --experimental-vectorize-bind-to-prod",
 		"deploy": "wrangler deploy --minify",
 		"cf-typegen": "wrangler types --env-interface CloudflareBindings"
 	},

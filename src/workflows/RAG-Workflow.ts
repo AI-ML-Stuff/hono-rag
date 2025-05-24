@@ -1,5 +1,13 @@
 import { WorkflowEntrypoint, WorkflowStep, WorkflowEvent } from "cloudflare:workers";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
+interface Env {
+  GROQ_API_KEY: string;
+  DB: D1Database;
+  VECTORIZE: VectorizeIndex;
+  AI: Ai;
+  ASSETS: Fetcher;
+  RAG_WORKFLOW: Workflow;
+}
 
 type Note = {
   id: string;
@@ -10,10 +18,11 @@ type Params = {
   text: string;
 };
 
-export class RAGWorkflow extends WorkflowEntrypoint<CloudflareBindings, Params> {
+export class RAGWorkflow extends WorkflowEntrypoint<Env, Params> {
   async run(event: WorkflowEvent<Params>, step: WorkflowStep) {
     const env = this.env
     const { text } = event.payload;
+    console.log("RAGWorkflow started with text:", text)
     let texts: string[] = [text]
 
     texts = await step.do('split text', async () => {

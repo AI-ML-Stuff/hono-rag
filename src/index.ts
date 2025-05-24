@@ -90,7 +90,7 @@ app.get("/notes", async (c) => {
 
   const result = streamText({
     model: model,
-    system: 'You are an AI assistant that answers questions based on a database of notes. You have access to notes retriver tool. If you do not know the answer, say "I do not know".',
+    system: 'You are an AI assistant that answers questions based on a database of notes. You have access to notes retriver tool. If you do not know the answer, say "I do not know". Dont mention the tool in your answer.',
     messages: [
       { role: 'user', content: question },
     ],
@@ -111,9 +111,9 @@ app.get("/notes", async (c) => {
 
 app.post("/notes", async (c) => {
   const { text } = await c.req.json();
-  if (!text) return c.text("Missing text", 400);
   customLogger("Creating note:", text);
-  // await c.env.RAG_WORKFLOW.create({ params: { text } });
+  if (!text) return c.text("Missing text", 400);
+  await c.env.RAG_WORKFLOW.create({ params: { text } });
   return c.text("Created note", 201);
 });
 

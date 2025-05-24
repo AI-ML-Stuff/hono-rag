@@ -35,6 +35,7 @@
     {
       "binding": "VECTORIZE",
       "index_name": "rag-vector-index"
+      // "index_name": "mars-ai-vector-dev"
     }
   ]
 }

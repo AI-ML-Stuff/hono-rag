@@ -13,10 +13,15 @@ export default function getNotesTools(c: Context) {
       description: 'A tool to retrieve relevent notes from Vector index. It returns the relevent notes based on the search query.',
       parameters: z.object({ question: z.string().describe('The search query to find relevant documents') }),
       execute: async ({ question }) => {
+
+        if (!c.env.AI || !c.env.VECTORIZE || !c.env.DB) {
+          throw new Error("Required environment variables are not set.");
+        }
+
         const embeddings = await c.env.AI.run('@cf/baai/bge-base-en-v1.5', { text: question })
         const vectors = embeddings.data[0]
 
-        const vectorQuery = await c.env.VECTOR_INDEX.query(vectors, { topK: 1 });
+        const vectorQuery = await c.env.VECTORIZE.query(vectors, { topK: 1 });
         console.log("Vector query results:", vectorQuery)
         const vecId = vectorQuery.matches[0]?.id
 
